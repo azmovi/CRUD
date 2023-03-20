@@ -3,5 +3,7 @@
 
 class Agua: public Pokemon
 {
+private:
 
-}
+};
+#endif
