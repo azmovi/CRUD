@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 
-enum tipo {Treinador, Pokemon}
+enum tipo {TREINADOR, POKEMON};
 class SerVivo
 {
 private:
@@ -17,9 +17,9 @@ public:
     virtual void imprime() const;
 
     std::string getNome() const;
-    void setNome(std::string nome);
+    void setNome(std::string);
     std::sring getRegiao() const;
-    void setRegiao(std::string regiao);
+    void setRegiao(std::string);
 };
 
 #endif /* _SERVIVO_H */
