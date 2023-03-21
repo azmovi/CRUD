@@ -1,94 +1,66 @@
-include "Pokemon.h"
+#include "Pokemon.h"
 
-Pokemon::Pokemon(std::string& nome, int& vida, int& dano)
-    :nome(nome), vida(vida), dano(dano) 
+Pokemon::Pokemon(std::string& nome, std::string& regiao, int& vida,
+        int& dano, std::string elemento)
+    :SerVivo(nome, regiao), vida(vida), dano(dano), elemento(elemento)
 {
-    pokemons.push_back(this->pokemon);
+    int ElementoInvalido = true; 
+    for(int i = 0; i < 4; ++i)
+    {
+        if(elmentos[i] == this->elemento)
+        {
+            ElementoInvalido = false;
+        }
+    }
+    if(ElementoInvalido)
+    {
+        std::cout << "Não exist o elemento escrito." << std::endl;
+        std::cout << "Seu pokemon é do tipo NORMAL." << std::endl;
+    }
 }
 
-virtual void imprime() const
+std::string getTipo() const override
 {
-    std::cout << "Especie: " << this->nome << std::endl;
+    return "POKEMON";
+}
+
+void Pokemon::imprime() const override
+{
+    SerVivo::imprime();
     std::cout << "Vida-> " << this->vida << "Dano-> " << this->dano << std::endl;
-    std::string tipo;
-    switch (this->getTipo()) 
-    {
-        case AGUA:
-        {
-            tipo = "Água";
-            break;
-        }
-        case FOGO:
-        {
-            tipo = "Fogo";
-            break;
-        }
-        case GRAMA:
-        {
-            tipo = "Grama";
-            break;
-        }
-    }
-    std::cout << "Tipo: " << tipo << std::endl;
+    std::cout << "Elemento: " << this->elemento << std::endl;
 }
 
-static void luta(Pokemon* p1, Pokemon* p2)
-{
-    if((p1->dano > p2->vida) && (p2->dano < p1->vida))
-    {
-        std::cout << p1->nome << " saiu vitorioso." << std::endl;
-        std::cout << "Infelizmente " << p2->nome << " acabou morrendo." << std::endl;
-        removePokemon(p2);
-    }
-    else
-    {
-        if((p1->dano < p2->vida) && (p2->dano > p1->vida))
-        {
-            std::cout << p2->nome << " saiu vitorioso." << std::endl;
-            std::cout << "Infelizmente " << p1->nome << " acabou morrendo." << std::endl;
-            removePokemon(p1);
-        }
-        else
-        {
-            std::cout << "Ocorreu um empate!!" <<std::endl;
-        }
-    }
-}
-std::string getNome() const
+std::string Pokemon::getNome() const
 {
     return this->nome;
 }
-void setNome(std::string nome)
+void Pokemon::setNome(std::string nome)
 {
     this->nome = nome;
 }
-int getVida() const
+int Pokemon::getVida() const
 {
     return this->vida;
 }
-void setVida(int vida)
+void Pokemon::setVida(int vida)
 {
     this->vida = vida;
 }
-int getDano() const
+int Pokemon::getDano() const
 {
     return this->dano;
 }
-void setDano(int dano)
+void Pokemon::setDano(int dano)
 {
     this->dano = dano;
 }
-bool removePokemon(Pokemon *pokemon)
+std::string Pokemon::getElemento() const
 {
-    for(int i = 0; i < pokemons.size(); ++i)
-    {
-        if(pokemons[i] == pokemon)
-        {
-            pokemons.erase(pokemons.begin() + i);
-            delete pokemon;
-            return true;
-        }
-    }
-    return false;
-    std::cout << "Ocorreu algum erro e o pokemon não foi removido!!";
+    return this->elemento;
 }
+void Pokemon::setElemento(std::string elemento)
+{
+    this->elemento = elemento;
+}
+
