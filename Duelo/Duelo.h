@@ -11,8 +11,10 @@ private:
     void grava();
     void recupera();
     std::string fileName;
-    vector<Treinador*> treinadores;
-    vector<Pokemon*> pokemons;
+    std::vector<SerVivo*> seresVivos;
+    std::vector<Treinador*> treinadores;
+    std::vector<Pokemon*> pokemons;
+
 public:
     Duelo(std::string& fileName);
     bool adciona(std::string);
