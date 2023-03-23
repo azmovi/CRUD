@@ -8,11 +8,13 @@ class Pokemon: public SerVivo
 private:
     int vida;
     int dano;
+    std::string specialAtk; 
     std::string elemento;
     std::string elementos[4] = {"fogo", "agua", "grama", "normal"};
 public:
     Pokemon(std::string& nome, std::string& regiao, int& vida,
-            int& dano,std::string& elemento="normal");
+            int& dano, std::string& specialAtk,
+            std::string& elemento="normal");
     
     std::string getTipo() const override;
     void imprime() const override;

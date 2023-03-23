@@ -1,7 +1,8 @@
 #include "Pokemon.h"
 
 Pokemon::Pokemon(std::string& nome, std::string& regiao, int& vida,
-        int& dano, std::string elemento)
+        int& dano, std::string& specialAtk,
+        std::string elemento)
     :SerVivo(nome, regiao), vida(vida), dano(dano), elemento(elemento)
 {
     int ElementoInvalido = true; 
