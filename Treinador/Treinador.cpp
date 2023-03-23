@@ -1,6 +1,6 @@
 #include "Treinador.h"
 
-Treinador(std::string& nome, std::string& regiao, int& idade)
+Treinador(int& id, std::string& nome, std::string& regiao, int& idade)
     :SerVivo(nome, regiao), idade(idade) {};
 
 std::string getTipo() const override
@@ -62,9 +62,20 @@ int Treinador::getIdade() const
 {
     return this->idade;
 }
+
 void Treinador::setIdade(int idade)
 {
     this->idade = idade;
+}
+
+std::string Treinador::getGenero() const
+{
+    return this->genero;
+}
+
+void Treinador::setGenero(std::string genero)
+{
+    this->genero = genero;
 }
 
 

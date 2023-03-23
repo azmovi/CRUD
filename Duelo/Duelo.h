@@ -1,6 +1,7 @@
 #ifndef _DUELO_H
 #define _DUELO_H
 
+#include <cstdlib>
 #include "../SerVivo/SerVivo.h"
 #include "../Treinador/Treinador.h"
 #include "../Pokemon/Pokemon.h"
@@ -18,11 +19,12 @@ private:
 public:
     Duelo(std::string& fileName);
     bool adciona(std::string);
-    void imprimeTreinadores();
-    void imprimePokemons();
-    void imprimeTime(Treinador treinador);
+    bool atualiza(int, std::string);
     void Batalha(Treinador t1, Treinador t2);
-    static char opcao();
+    static int opcaoPrincipal();
+    static int atualizaAtributosTreinador();
+    static int atualizaAtributosPokemon();
+    static int opcaoImprime();
 };
 
 endif /* _DUELO_H */

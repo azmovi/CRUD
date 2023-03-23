@@ -4,18 +4,20 @@
 #include <string>
 #include <iostream>
 
-enum tipo {TREINADOR, POKEMON};
 class SerVivo
 {
 private:
+    int id;
     std::string nome;
     std::string regiao;
 public:
-    SerVivo(std::string nome, std::string regiao);
-    
-    virtual void getTipo() = 0;
+    SerVivo(int& id, std::string nome, std::string regiao);
+
+    virtual string getTipo() const = 0;
     virtual void imprime() const;
 
+    int getId() const;
+    void setId(int);
     std::string getNome() const;
     void setNome(std::string);
     std::sring getRegiao() const;

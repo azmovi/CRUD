@@ -12,9 +12,11 @@ private:
     std::string elemento;
     std::string elementos[4] = {"fogo", "agua", "grama", "normal"};
 public:
-    Pokemon(std::string& nome, std::string& regiao, int& vida,
-            int& dano, std::string& specialAtk,
-            std::string& elemento="normal");
+    Pokemon(
+            int& id, std::string& nome, std::string& regiao,
+            int& vida,int& dano, 
+            std::string& specialAtk,std::string& elemento="normal"
+            );
     
     std::string getTipo() const override;
     void imprime() const override;
@@ -25,6 +27,8 @@ public:
     void setDano(int);
     std::string getElemento() const;
     void setElemento(std::string);
+    std::string getSpecialAtk() const;
+    void setSpecialAtk(std::string);
 
 }
 #endif /* _POKEMON_H */

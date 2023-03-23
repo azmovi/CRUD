@@ -1,6 +1,6 @@
 #include "Pokemon.h"
 
-Pokemon::Pokemon(std::string& nome, std::string& regiao, int& vida,
+Pokemon::Pokemon(int& id, std::string& nome, std::string& regiao, int& vida,
         int& dano, std::string& specialAtk,
         std::string elemento)
     :SerVivo(nome, regiao), vida(vida), dano(dano), elemento(elemento)
@@ -64,4 +64,7 @@ void Pokemon::setElemento(std::string elemento)
 {
     this->elemento = elemento;
 }
+std::string Pokemon::getSpecialAtk() const;
+void Pokemon::setSpecialAtk(std::string);
+
 

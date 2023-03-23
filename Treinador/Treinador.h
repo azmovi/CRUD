@@ -9,10 +9,12 @@ class Treinador: public SerVivo
 {
 private:
     int idade;
+    std::string genero;
     int totalPokemons = 0;
     std::vector<Pokemon*> time(3);
 public:
-    Treinador(std::string& nome, std::string& regiao, int& idade);
+    Treinador(int& id, std::string& nome, std::string& regiao,
+            std::string& genero, int& idade);
 
     std::string getTipo() const override;
     void imprime() const override;
@@ -24,6 +26,8 @@ public:
 
     int getIdade() const;
     void setIdade(int);
+    std::string getGenero() const;
+    void setGenero(std::string);
 
 
 
