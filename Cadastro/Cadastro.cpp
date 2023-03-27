@@ -179,31 +179,61 @@ void Cadastro::recupera() {
 }
 
 bool Cadastro::adiciona(int tipo) {
-    int CPF, CRE;
-    double salario;
-    string nome, especialidade;
-    Funcionario* f;
+    //Ser Vivo
+    int id, tipo;
+    std::string nome, regiao;
+    SerVivo *serVivo;
+    //Treinador
+    int idade;
+    std::string genero;
+    //Pokemon
+    int vida, dano;
+    std::string specialAtk, elemento;
 
-    cin.ignore();
-    cout << "Nome: ";
-    getline(cin, nome);
-    cout << "CPF: ";
-    cin >> CPF;
-    cout << "Salário: ";
-    cin >> salario;
+    std::cin.ignore();
+    std::cout << "ID: ";
+    std::cin >> id;
+
+    std::cin.ignore();
+    std::cout << "Nome: ";
+    std::getline(std::cin, nome);
+
+    std::cin.ignore();
+    std::cout << "Regiao: ";
+    std::getline(std::cin, nome);
 
     switch(tipo) {
-        case ENFERMEIRO: {
-            cout << "CRE: ";
-            cin >> CRE;
-            f = new Enfermeiro(CPF, nome, salario, CRE);
+        case POKEMON: {
+            std::cin.ignore();
+            std::cout << "vida: ";
+            std::cin >> vida;
+
+            std::cin.ignore();
+            std::cout << "dano: ";
+            std::cin >> dano;
+
+            std::cin.ignore();
+            std::cout << "Ataque Especial: ";
+            std::getline(std::cin, specialAtk);
+
+            std::cin.ignore();
+            std::cout << "Elemento: ";
+            std::getline(std::cin, elemento);
+
+            f = new Pokemon(id, nome, regiao, vida, dano, specialAtk, elemento);
             break;
         }
-        case MEDICO: {
-            cout << "Especialidade: ";
-            cin.ignore();
-            getline(cin, especialidade);
-            f = new Medico(CPF, nome, salario, especialidade);
+        case TREINADOR: {
+
+            std::cin.ignore();
+            std::cout << "Genero: ";
+            std::getline(std::cin, genero);
+
+            std::cin.ignore();
+            std::cout << "idade: ";
+            std::cin >> idade;
+
+            f = new Treinador(id, nome, regiao, genero, idade);
             break;
         }
     }
@@ -213,18 +243,110 @@ bool Cadastro::adiciona(int tipo) {
     return true;
 }
 
-bool Cadastro::atualiza(int CPF) 
+bool Cadastro::atualiza(int id)
 {
-    double salario;
+    std::string nome, regiao;
+    int idade, vida, dano, opt;
+    std::string specialAtk, elemento, genero;
     bool ok = false;
-    int pos = indice(CPF);
+    int pos = indice(id);
+    int tipo = seresVivos[pos]->getTipo();
 
+    cout << "[1] Nome" << endl;
+    cout << "[2] Regiao" << endl;
+    switch(tipo)
+    {
+        case POKEMON:
+        {
+            std::cout << "[3] Vida" << std::endl;
+            std::cout << "[4] Dano" << std::endl;
+            std::cout << "[5] Ataque Especial" << std::endl;
+            std::cout << "[6] Elemento" << std::endl;
+        }
+        case TREINADOR:
+        {
+            std::cout << "[3] Genero" << std::endl;
+            std::cout << "[4] Idade" << std::endl;
+        }
+    }
+    cout << "[0] Fim" << endl;
+    cout << "> ";
+    cin >> opt;
     if (pos != -1) 
     {
-        
-        cout << "Salário: ";
-        cin >> salario;
-        seresVivos[pos]->setSalario(salario);
+        switch(opt)
+        {
+            case 1:
+            {
+
+                std::cout << "Nome: ";
+                std::cin >> nome;
+                seresVivos[pos]->setNome(nome);
+                break;
+            }
+            case 2:
+            {
+                std::cout << "Regiao: ";
+                std::cin >> regiao;
+                seresVivos[pos]->setRegiao(regiao);
+                break;
+            }
+            case 3:
+            {
+                switch(tipo)
+                {
+                    case POKEMON:
+                    {
+                        std::cout << "Vida: ";
+                        std::cin >> vida;
+                        seresVivos[pos]->setVida(vida);
+                        break;
+                    }
+                     case TREINADOR:
+                    {
+                        std::cout << "Genero: ";
+                        std::cin >> genero;
+                        seresVivos[pos]->setGenero(genero);
+                        break;
+                    }
+                }
+            }
+            case 4:
+            {
+                switch(tipo)
+                {
+                    case POKEMON:
+                    {
+                        std::cout << "Dano: ";
+                        std::cint >> dano;
+                        seresVivos[pos]->setDano(dano);
+                        break;
+                    }
+                    case TREINADOR:
+                    {
+                        std::cout << "Idade: ";
+                        std::cin >> idade;
+                        seresVivos[pos]->setIdade(idade);
+                        break;
+                    }
+                }
+            }
+            case 5:
+            {
+                std::cout << "Ataque Especial: ";
+                std::cin >> specialAtk;
+                seresVivos[pos]->setSpecialAtk(specialAtk);
+                break;
+            }
+            case 6:
+            { 
+                std::cout << "Elemento: ";
+                std::cin >> elemento;
+                seresVivos[pos]->setElemento(elemento);
+                break;
+            }
+            
+        }
         grava();
         ok = true;
     }
@@ -235,7 +357,7 @@ bool Cadastro::atualiza(int CPF)
 bool Cadastro::remove(int id) 
 {
     bool ok = false;
-    int pos = indice(CPF);
+    int pos = indice(id);
 
     if (pos != -1) 
     {
@@ -247,12 +369,12 @@ bool Cadastro::remove(int id)
     return ok;
 }
 
-int Cadastro::indice(int CPF) 
+int Cadastro::indice(int id) 
 {
 
-    for(size_t i = 0; i < sereVivos.size(); ++i)
+    for(size_t i = 0; i < seresVivos.size(); ++i)
     {
-        if(sereVivos[i]->getId() == id)
+        if(seresVivos[i]->getId() == id)
         {
             return i;
         }
@@ -270,18 +392,19 @@ void Cadastro::imprime(int id)
     }
     else 
     {
-        cout << "CPF não encontrado";
+        cout << "Id não encontrado";
     }
 }
 
 
 int Cadastro::opcao() {
     int opt;
-    cout << "[1] Imprime todos" << endl;
-    cout << "[2] Adiciona Enfermeiro" << endl;
-    cout << "[3] Adiciona Médico" << endl;
-    cout << "[4] Atualiza salário (por CPF)" << endl;
-    cout << "[5] Remove (por CPF)" << endl;
+    cout << "[1] Imprime Ser Vivo" << endl;
+    cout << "[2] Imprime Time" << endl;
+    cout << "[3] Adiciona Teinador" << endl;
+    cout << "[4] Adiciona Pokemon" << endl;
+    cout << "[5] Atualiza Atributo" << endl;
+    cout << "[6] Remove Ser Vivo"<< endl;
     cout << "[0] Fim" << endl;
     cout << "> ";
     cin >> opt;
