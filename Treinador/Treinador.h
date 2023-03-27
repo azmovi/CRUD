@@ -8,9 +8,8 @@
 class Treinador: public SerVivo
 {
 private:
-    int idade;
     std::string genero;
-    int totalPokemons = 0;
+    int idade, totalPokemons = 0, vitorias = 0;
     std::vector<Pokemon*> time(3);
 public:
     Treinador(int& id, std::string& nome, std::string& regiao,

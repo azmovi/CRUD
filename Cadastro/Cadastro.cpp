@@ -1,156 +1,181 @@
 #include "Cadastro.h"
-#include "Enfermeiro.h"
-#include "Medico.h"
 #include <algorithm>
 #include <fstream>
-using namespace std;
 
-Cadastro::Cadastro(string fileName) : fileName(fileName) {
+Cadastro::Cadastro(std::string fileName) : fileName(fileName) {
     recupera();
 }
 
 Cadastro::~Cadastro() {}
 
 void Cadastro::grava() {
+    //Ser Vivo
+    int id, tipo;
+    std::string nome, regiao;
+    //Treinador
+    int idade;
+    std::string genero;
+    Treinador *treinador;
+    //Pokemon
+    int vida, dano;
+    std::string specialAtk, elemento;
+    Pokemon *pokemon;
 
-    int CPF, CRE, tipo, tam;
-    string nome, especialidade;
-    double salario;
-    Enfermeiro *e1;
-    Medico *m1;
+    ofstream arquivoSaida(fileName, ios::binary);
 
-    ofstream saida(fileName, ios::binary);
+    for (size_t i = 0; i < seresVivos.size(); ++i)  {
 
-    for (long unsigned int i = 0; i < funcionarios.size(); i++)  {
+        // Escrevendo tipo
+        tipo = seresVivos[i]->getTipo();
+        arquivoSaida.write(reinterpret_cast<char *>(&tipo), sizeof(tipo));
 
-        // Escrevendo o tipo de funcionario (ENFERMEIRO ou MEDICO)
-
-        tipo = funcionarios[i]->getProfissao();
-        saida.write(reinterpret_cast<char *>(&tipo), sizeof(tipo));
-
-        // Escrevendo o CPF
-
-        CPF = funcionarios[i]->getCPF();
-        saida.write(reinterpret_cast<char *>(&CPF), sizeof(CPF));
+        // Escrevendo o id 
+        id = seresVivos[i]->getId();
+        arquivoSaida.write(reinterpret_cast<char *>(&id), sizeof(id));
 
         // Escrevendo o nome
-
-        nome = funcionarios[i]->getNome();
+        nome = seresVivos[i]->getNome();
         tam = nome.size();
+        arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
+        arquivoSaida.write(reinterpret_cast<char *>(&nome[0]), tam);
+        
+        //Escrevendo regiao
+        regiao = seresVivos[i]->getRegiao();
+        tam = regiao.size();
+        arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
+        arquivoSaida.write(reinterpret_cast<char *>(&regiao[0]), tam);
 
-        // Escrevendo o tamanho da string (nome)
-        saida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
 
-        // Escrevendo os caracteres da string (nome)
-        saida.write(reinterpret_cast<char *>(&nome[0]), tam);
-
-        // Escrevendo o salario
-        salario = funcionarios[i]->getSalario();
-        saida.write(reinterpret_cast<char *>(&salario), sizeof(salario));
-
-        // Escreve as caracteristicas especificas Funcionário
-        // (atributos da classe Enfermeiro ou Medico)
 
         switch (tipo) {
-            case ENFERMEIRO: {
-                // Escrevendo o CRE
+            case POKEMON: {
+                pokemon = dynamic_cast<Pokemon*>(seresVivos[i]);
 
-                e1 = dynamic_cast<Enfermeiro *>(funcionarios[i]);
-                CRE = e1->getCRE();
-                saida.write(reinterpret_cast<char *>(&CRE), sizeof(CRE));
+                // Escrevendo Vida
+                vida = pokemon->getVida();
+                arquivoSaida.write(reinterpret_cast<char *>(&vida), sizeof(vida));
+
+                // Escrevendo dano
+                dano = pokemon->getDano();
+                arquivoSaida.write(reinterpret_cast<char *>(&dano), sizeof(dano));
+
+                // Escrevendo Atk especial 
+                especialAtk = seresVivos[i]->getEspecialAtk();
+                tam = especialAtk.size();
+                arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
+                arquivoSaida.write(reinterpret_cast<char *>(&especialAtk[0]), tam);
+
+                // Escrevendo Elemento
+                elemento = seresVivos[i]->getElemento();
+                tam = elemento.size();
+                arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
+                arquivoSaida.write(reinterpret_cast<char *>(&elemento[0]), tam);
 
                 break;
             }
-            case MEDICO: {
-                // Escrevendo a especialidade
+            case TREINADOR: {
 
-                m1 = dynamic_cast<Medico *>(funcionarios[i]);
-                especialidade = m1->getEspecialidade();
-                tam = especialidade.size();
+                treinador = dynamic_cast<Treinador*>(seresVivos[i]);
 
-                // Escrevendo o tamanho da string (especialidade)
-                saida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
+                // Escrevendo genero
+                genero = seresVivos[i]->getGenero();
+                tam = elemento.size();
+                arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
+                arquivoSaida.write(reinterpret_cast<char *>(&genero[0]), tam);
 
-                // Escrevendo os caracteres da string (especialidade)
-                saida.write(reinterpret_cast<char *>(&especialidade[0]), tam);
+                // Escrevendo idade
+                idade = treinador->getIdade();
+                arquivoSaida.write(reinterpret_cast<char *>(&idade), sizeof(idade));
+
 
              break;
             }
         }
     }
 
-    saida.close();
+    arquivoSaida.close();
 }
 
 void Cadastro::recupera() {
 
-    int CPF, CRE, tipo, tam;
-    double salario;
-    string nome, especialidade;
+    //Ser Vivo
+    int id, tipo;
+    std::string nome, regiao;
+    //Treinador
+    int idade;
+    std::string genero;
+    //Pokemon
+    int vida, dano;
+    std::string specialAtk, elemento;
 
-    ifstream entrada(fileName, ios::binary);
+    ifstream arquivoEntrada(fileName, ios::binary);
     
-    if (entrada.is_open()) {
+    if (arquivoEntrada.is_open()) {
 
-        funcionarios.clear();
+        seresVivos.clear();
 
         // Lendo o tipo
 
-        entrada.read(reinterpret_cast<char *>(&tipo), sizeof(tipo));
+        arquivoEntrada.read(reinterpret_cast<char *>(&tipo), sizeof(tipo));
 
-        while (entrada.good()) {
+        while (arquivoEntrada.good()) {
 
-            // Lendo o CPF
+            // Lendo o id 
 
-            entrada.read(reinterpret_cast<char *>(&CPF), sizeof(CPF));
+            arquivoEntrada.read(reinterpret_cast<char *>(&id), sizeof(id));
 
             // Lendo o nome
 
-            // Lendo o tamanho da string (nome)
-            entrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+            arquivoEntrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
             nome.resize(tam);
+            arquivoEntrada.read(reinterpret_cast<char *>(&nome[0]), tam);
 
-            // Lendo os caracteres da string (nome)
-            entrada.read(reinterpret_cast<char *>(&nome[0]), tam);
-
-            // Lendo o salário
-
-            entrada.read(reinterpret_cast<char *>(&salario), sizeof(salario));
-
-            // Lendo as caracteristicas especificas Funcionário
-            // (atributos da classe Enfermeiro ou Medico)
+            // Lendo a regiao
+            arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+            regiao.resize(tam);
+            arquivoentrada.read(reinterpret_cast<char *>(&regiao[0]), tam);
 
             switch (tipo) {
-                case ENFERMEIRO: {
+                case POKEMON: {
+                    //Lendo vida
+                    arquivoEntrada.read(reinterpret_cast<char *>(&vida), sizeof(vida));
 
-                    // Lendo o CRE
-                    entrada.read(reinterpret_cast<char *>(&CRE), sizeof(CRE));
+                    // Lendo dano
+                    arquivoEntrada.read(reinterpret_cast<char *>(&dano), sizeof(dano));
 
-                    funcionarios.push_back(new Enfermeiro(CPF, nome, salario, CRE));
+                    // Lendo Atk especial
+                    arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+                    specialAtk.resize(tam);
+                    arquivoentrada.read(reinterpret_cast<char *>(&specialAtk[0]), tam);
+
+                    // Lendo elemento
+                    arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+                    elemento.resize(tam);
+                    arquivoentrada.read(reinterpret_cast<char *>(&elemento[0]), tam);
+                    
+                    seresVivos.push_back(new Pokemon(id, nome, regiao, vida, dano, especialAtk, elemento));
                     break;
                 }
-                case MEDICO: {
+                case TREINADOR: {
+                    // Lendo genero
+                    arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+                    genero.resize(tam);
+                    arquivoentrada.read(reinterpret_cast<char *>(&genero[0]), tam);
 
-                    // Lendo a especialidade
+                    // Lendo idade
+                    arquivoEntrada.read(reinterpret_cast<char *>(&idade), sizeof(idade));
 
-                    // Lendo o tamanho da string (especialidade)
-                    entrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
-                    especialidade.resize(tam);
-
-                    // Lendo os caracteres da string (especialidade)
-                    entrada.read(reinterpret_cast<char *>(&especialidade[0]), tam);
-
-                    funcionarios.push_back(new Medico(CPF, nome, salario, especialidade));
+                    seresVivos.push_back(new Treinador(id, nome, regiao, genero, idade));
                     break;
                 }
             }
 
             // Lendo o tipo
 
-            entrada.read(reinterpret_cast<char *>(&tipo), sizeof(tipo));
+            arquivoEntrada.read(reinterpret_cast<char *>(&tipo), sizeof(tipo));
         }
     }
-    entrada.close();
+    arquivoEntrada.close();
 }
 
 bool Cadastro::adiciona(int tipo) {
@@ -183,7 +208,7 @@ bool Cadastro::adiciona(int tipo) {
         }
     }
 
-    funcionarios.push_back(f);
+    seresVivos.push_back(f);
     grava();
     return true;
 }
@@ -199,7 +224,7 @@ bool Cadastro::atualiza(int CPF)
         
         cout << "Salário: ";
         cin >> salario;
-        funcionarios[pos]->setSalario(salario);
+        seresVivos[pos]->setSalario(salario);
         grava();
         ok = true;
     }
@@ -214,7 +239,7 @@ bool Cadastro::remove(int id)
 
     if (pos != -1) 
     {
-        funcionarios.erase(funcionarios.begin() + pos);
+        seresVivos.erase(seresVivos.begin() + pos);
         grava();
         ok = true;
     }
@@ -241,7 +266,7 @@ void Cadastro::imprime(int id)
 
     if (pos != -1) 
     {
-        funcionarios[pos]->imprime();
+        seresVivos[pos]->imprime();
     }
     else 
     {
