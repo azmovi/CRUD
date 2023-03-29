@@ -18,7 +18,7 @@ public:
             std::string& specialAtk,std::string& elemento="normal"
             );
     
-    std::string getTipo() const override;
+    int getTipo() const override;
     void imprime() const override;
 
     int getVida() const;

@@ -20,9 +20,9 @@ Pokemon::Pokemon(int& id, std::string& nome, std::string& regiao, int& vida,
     }
 }
 
-std::string getTipo() const override
+int getTipo() const override
 {
-    return "POKEMON";
+    return POKEMON; 
 }
 
 void Pokemon::imprime() const override

@@ -1,13 +1,16 @@
 #include "Treinador.h"
 
-Treinador(int& id, std::string& nome, std::string& regiao, int& idade)
-    :SerVivo(nome, regiao), idade(idade) {};
-
-std::string getTipo() const override
+Treinador::Treinador(int& id, std::string& nome, std::string& regiao, int& idade)
+    :SerVivo(nome, regiao), idade(idade) 
 {
-    return "TREINADOR";
+    time.push_back(*this)
 }
-void imprime() const override
+
+int Treinador::getTipo()
+{
+    return TREINADOR; 
+}
+void Treinador::imprime()
 {
     SerVivo::imprime();
     std::cout << "Idade: " << this->idade << std::endl;
@@ -34,14 +37,14 @@ bool Treinador::removePokemon(std::string nome)
             return true;
         }
     }
-    std::cout << "Esse pokemon não está no seu time."; << std::endl;
+    std::cout << "Esse pokemon não está no seu time." << std::endl;
     return false;
 }
-bool Treinador::adcionaPokemon(Pokemon pokemon)
+bool Treinador::adcionaPokemon(Pokemon *pokemon)
 {
     if(totalPokemons < 3)
     {
-        time.push_back(&pokemon);
+        time.push_back(pokemon);
         totalPokemons++;
         return true;
     }

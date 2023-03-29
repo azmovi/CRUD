@@ -10,17 +10,17 @@ class Treinador: public SerVivo
 private:
     std::string genero;
     int idade, totalPokemons = 0, vitorias = 0;
-    std::vector<Pokemon*> time(3);
+    std::vector<Pokemon*> time;
 public:
     Treinador(int& id, std::string& nome, std::string& regiao,
             std::string& genero, int& idade);
 
-    std::string getTipo() const override;
+    int getTipo() const override;
     void imprime() const override;
 
     void listaTime();
     bool removePokemon(std::string);
-    bool adcionaPokemon();
+    bool adcionaPokemon(Pokemon*);
     bool temPokemon();
 
     int getIdade() const;
