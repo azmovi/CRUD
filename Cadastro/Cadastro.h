@@ -1,7 +1,7 @@
 #ifndef CADASTRO_H
 #define CADASTRO_H
 
-#include "Funcionario.h"
+#include "../SerVivo/SerVivo.h"
 #include <vector>
 
 class Cadastro {

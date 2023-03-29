@@ -1,6 +1,6 @@
 #include "SerVivo.h"
 
-SerVivo::SerVivo(int& id, std::string nome, std::string regiao)
+SerVivo::SerVivo(int& id, std::string& nome, std::string& regiao)
     :id(id), nome(nome), regiao(regiao) {};
 
 void SerVivo::imprime() const
@@ -25,7 +25,10 @@ std::string SerVivo::getNome() const
     return this->nome;
 }
 void SerVivo::setNome(std::string nome)
+{
+
     this->nome = nome;
+}
 std::string SerVivo::getRegiao() const
 {
     return this->regiao;

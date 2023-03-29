@@ -5,8 +5,9 @@
 #include <iostream>
 
 enum Tipo {
-    TREINADOR;
-    POKEMON;
+
+    TREINADOR,
+    POKEMON
 };
 
 class SerVivo
@@ -25,7 +26,7 @@ public:
     void setId(int);
     std::string getNome() const;
     void setNome(std::string);
-    std::sring getRegiao() const;
+    std::string getRegiao() const;
     void setRegiao(std::string);
 };
 
