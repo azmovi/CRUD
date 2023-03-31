@@ -1,16 +1,13 @@
 #include "Treinador.h"
 
-Treinador::Treinador(int& id, std::string& nome, std::string& regiao, int& idade)
-    :SerVivo(nome, regiao), idade(idade) 
-{
-    time.push_back(*this)
-}
+Treinador::Treinador(int& id, std::string& nome, std::string& regiao, std::string& genero, int& idade)
+    :SerVivo(id,nome, regiao), genero(genero), idade(idade) {}
 
-int Treinador::getTipo()
+int Treinador::getTipo() const
 {
     return TREINADOR; 
 }
-void Treinador::imprime()
+void Treinador::imprime() const
 {
     SerVivo::imprime();
     std::cout << "Idade: " << this->idade << std::endl;
@@ -21,7 +18,7 @@ void Treinador::listaTime()
     for(int i = 1; i < 4; ++i)
     {
         std::cout << "------- POKEMON -> " << i << " -------" << std::endl;
-        time[i]->imprime();
+        time[i-1]->imprime();
     }
     std::cout << "--------------------" << std::endl;
 
@@ -32,7 +29,7 @@ bool Treinador::removePokemon(std::string nome)
     {
         if(time[i]->getNome() == nome)
         {
-            time.erase(time.begin() + 1);
+            time.erase(time.begin() + i);
             totalPokemons--;
             return true;
         }

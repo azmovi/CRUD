@@ -14,21 +14,25 @@ private:
 public:
     Pokemon(
             int& id, std::string& nome, std::string& regiao,
-            int& vida,int& dano, 
-            std::string& specialAtk,std::string& elemento="normal"
-            );
+            int& vida,int& dano, std::string& specialAtk, std::string& elemento);
     
     int getTipo() const override;
     void imprime() const override;
 
+    bool elementoValido(std::string);
+
     int getVida() const;
     void setVida(int);
+
     int getDano() const;
     void setDano(int);
+
     std::string getElemento() const;
     void setElemento(std::string);
+
     std::string getSpecialAtk() const;
     void setSpecialAtk(std::string);
+    
 
-}
+};
 #endif /* _POKEMON_H */
