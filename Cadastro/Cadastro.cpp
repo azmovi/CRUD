@@ -202,11 +202,9 @@ bool Cadastro::adiciona(int tipo) {
 
     switch(tipo) {
         case POKEMON: {
-            std::cin.ignore();
             std::cout << "vida: ";
             std::cin >> vida;
 
-            std::cin.ignore();
             std::cout << "dano: ";
             std::cin >> dano;
 
@@ -214,7 +212,6 @@ bool Cadastro::adiciona(int tipo) {
             std::cout << "Ataque Especial: ";
             std::getline(std::cin, specialAtk);
 
-            std::cin.ignore();
             std::cout << "Elemento: ";
             std::getline(std::cin, elemento);
 
@@ -223,7 +220,6 @@ bool Cadastro::adiciona(int tipo) {
         }
         case TREINADOR: {
 
-            std::cin.ignore();
             std::cout << "Genero: ";
             std::getline(std::cin, genero);
 
@@ -266,11 +262,13 @@ bool Cadastro::atualiza(int id)
             std::cout << "[4] Dano" << std::endl;
             std::cout << "[5] Ataque Especial" << std::endl;
             std::cout << "[6] Elemento" << std::endl;
+            break;
         }
         case TREINADOR:
         {
             std::cout << "[3] Genero" << std::endl;
             std::cout << "[4] Idade" << std::endl;
+            break;
         }
     }
     std::cout << "[0] Fim" << std::endl;
