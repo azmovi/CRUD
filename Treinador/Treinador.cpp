@@ -13,7 +13,7 @@ void Treinador::imprime() const
     std::cout << "Idade: " << this->idade << std::endl;
 }
 
-void Treinador::listaTime()
+void Treinador::imprimeSeuTime()
 {
     for(int i = 1; i < 4; ++i)
     {

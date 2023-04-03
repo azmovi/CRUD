@@ -18,7 +18,7 @@ public:
     int getTipo() const override;
     void imprime() const override;
 
-    void listaTime();
+    void imprimeSeuTime();
     bool removePokemon(std::string);
     bool adcionaPokemon(Pokemon*);
     bool temPokemon();

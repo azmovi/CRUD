@@ -4,47 +4,51 @@ int main()
 {
     int op = 1;
     int id;
-    Duelo duelo("info.dat");
+    Cadastro cadastro("info.dat");
     while(op != 0)
     {
-        op = Cadastro::opcao();
+        op = cadastro.opcao();
         switch(op)
         {
             case 1:
             {
-                Cadastro::imprime();
+                std::cout << "Id: ";
+                std::cin >> id;
+                cadastro.imprime(id);
+                break;
             }
             case 2:
             {
                 std::cout << "Id: ";
                 std::cin >> id;
-                Cadastro::imprimeTime(id);
+                cadastro.imprimeTime(id);
                 break;
             }
             
             case 3:
             {
-                Cadastro::adiciona(TREINADOR);
+                cadastro.adiciona(TREINADOR);
                 break;
             }
             case 4:
             {
-                Cadastro::adiciona(POKEMON);
+                cadastro.adiciona(POKEMON);
                 break;
             }
             case 5:
             {
                 std::cout << "ID: ";
                 std::cin >> id; 
-                Cadastro::atualiza(id);
-                break
+                cadastro.atualiza(id);
+                break;
             }
             case 6:
             {
                 std::cout << "ID: ";
                 std::cin >> id;
-                Cadastro::remove(id);
-                break
+                cadastro.remove(id);
+                break;
             }
         }
     }
+}

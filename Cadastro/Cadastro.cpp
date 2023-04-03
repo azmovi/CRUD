@@ -6,11 +6,9 @@ Cadastro::Cadastro(std::string fileName) : fileName(fileName) {
     recupera();
 }
 
-Cadastro::~Cadastro() {}
-
 void Cadastro::grava() {
     //Ser Vivo
-    int id, tipo;
+    int id, tipo, tam;
     std::string nome, regiao;
     //Treinador
     int idade;
@@ -21,7 +19,7 @@ void Cadastro::grava() {
     std::string specialAtk, elemento;
     Pokemon *pokemon;
 
-    ofstream arquivoSaida(fileName, ios::binary);
+    std::ofstream arquivoSaida(fileName, std::ios::binary);
 
     for (size_t i = 0; i < seresVivos.size(); ++i)  {
 
@@ -49,6 +47,7 @@ void Cadastro::grava() {
 
         switch (tipo) {
             case POKEMON: {
+
                 pokemon = dynamic_cast<Pokemon*>(seresVivos[i]);
 
                 // Escrevendo Vida
@@ -60,13 +59,13 @@ void Cadastro::grava() {
                 arquivoSaida.write(reinterpret_cast<char *>(&dano), sizeof(dano));
 
                 // Escrevendo Atk especial 
-                especialAtk = seresVivos[i]->getEspecialAtk();
-                tam = especialAtk.size();
+                specialAtk= pokemon->getSpecialAtk();
+                tam = specialAtk.size();
                 arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
-                arquivoSaida.write(reinterpret_cast<char *>(&especialAtk[0]), tam);
+                arquivoSaida.write(reinterpret_cast<char *>(&specialAtk[0]), tam);
 
                 // Escrevendo Elemento
-                elemento = seresVivos[i]->getElemento();
+                elemento = pokemon->getElemento();
                 tam = elemento.size();
                 arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
                 arquivoSaida.write(reinterpret_cast<char *>(&elemento[0]), tam);
@@ -78,7 +77,7 @@ void Cadastro::grava() {
                 treinador = dynamic_cast<Treinador*>(seresVivos[i]);
 
                 // Escrevendo genero
-                genero = seresVivos[i]->getGenero();
+                genero = treinador->getGenero();
                 tam = elemento.size();
                 arquivoSaida.write(reinterpret_cast<char *>(&tam), sizeof(tam));
                 arquivoSaida.write(reinterpret_cast<char *>(&genero[0]), tam);
@@ -99,7 +98,7 @@ void Cadastro::grava() {
 void Cadastro::recupera() {
 
     //Ser Vivo
-    int id, tipo;
+    int id, tipo, tam;
     std::string nome, regiao;
     //Treinador
     int idade;
@@ -108,7 +107,7 @@ void Cadastro::recupera() {
     int vida, dano;
     std::string specialAtk, elemento;
 
-    ifstream arquivoEntrada(fileName, ios::binary);
+    std::ifstream arquivoEntrada(fileName, std::ios::binary);
     
     if (arquivoEntrada.is_open()) {
 
@@ -131,9 +130,9 @@ void Cadastro::recupera() {
             arquivoEntrada.read(reinterpret_cast<char *>(&nome[0]), tam);
 
             // Lendo a regiao
-            arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+            arquivoEntrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
             regiao.resize(tam);
-            arquivoentrada.read(reinterpret_cast<char *>(&regiao[0]), tam);
+            arquivoEntrada.read(reinterpret_cast<char *>(&regiao[0]), tam);
 
             switch (tipo) {
                 case POKEMON: {
@@ -144,23 +143,23 @@ void Cadastro::recupera() {
                     arquivoEntrada.read(reinterpret_cast<char *>(&dano), sizeof(dano));
 
                     // Lendo Atk especial
-                    arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+                    arquivoEntrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
                     specialAtk.resize(tam);
-                    arquivoentrada.read(reinterpret_cast<char *>(&specialAtk[0]), tam);
+                    arquivoEntrada.read(reinterpret_cast<char *>(&specialAtk[0]), tam);
 
                     // Lendo elemento
-                    arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+                    arquivoEntrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
                     elemento.resize(tam);
-                    arquivoentrada.read(reinterpret_cast<char *>(&elemento[0]), tam);
+                    arquivoEntrada.read(reinterpret_cast<char *>(&elemento[0]), tam);
                     
-                    seresVivos.push_back(new Pokemon(id, nome, regiao, vida, dano, especialAtk, elemento));
+                    seresVivos.push_back(new Pokemon(id, nome, regiao, vida, dano, specialAtk, elemento));
                     break;
                 }
                 case TREINADOR: {
                     // Lendo genero
-                    arquivoentrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
+                    arquivoEntrada.read(reinterpret_cast<char *>(&tam), sizeof(tam));
                     genero.resize(tam);
-                    arquivoentrada.read(reinterpret_cast<char *>(&genero[0]), tam);
+                    arquivoEntrada.read(reinterpret_cast<char *>(&genero[0]), tam);
 
                     // Lendo idade
                     arquivoEntrada.read(reinterpret_cast<char *>(&idade), sizeof(idade));
@@ -180,7 +179,7 @@ void Cadastro::recupera() {
 
 bool Cadastro::adiciona(int tipo) {
     //Ser Vivo
-    int id, tipo;
+    int id, tipo_do_pokemon;
     std::string nome, regiao;
     SerVivo *serVivo;
     //Treinador
@@ -198,9 +197,8 @@ bool Cadastro::adiciona(int tipo) {
     std::cout << "Nome: ";
     std::getline(std::cin, nome);
 
-    std::cin.ignore();
     std::cout << "Regiao: ";
-    std::getline(std::cin, nome);
+    std::getline(std::cin, regiao);
 
     switch(tipo) {
         case POKEMON: {
@@ -220,7 +218,7 @@ bool Cadastro::adiciona(int tipo) {
             std::cout << "Elemento: ";
             std::getline(std::cin, elemento);
 
-            f = new Pokemon(id, nome, regiao, vida, dano, specialAtk, elemento);
+            serVivo = new Pokemon(id, nome, regiao, vida, dano, specialAtk, elemento);
             break;
         }
         case TREINADOR: {
@@ -233,12 +231,12 @@ bool Cadastro::adiciona(int tipo) {
             std::cout << "idade: ";
             std::cin >> idade;
 
-            f = new Treinador(id, nome, regiao, genero, idade);
+            serVivo = new Treinador(id, nome, regiao, genero, idade);
             break;
         }
     }
 
-    seresVivos.push_back(f);
+    seresVivos.push_back(serVivo);
     grava();
     return true;
 }
@@ -252,8 +250,14 @@ bool Cadastro::atualiza(int id)
     int pos = indice(id);
     int tipo = seresVivos[pos]->getTipo();
 
-    cout << "[1] Nome" << endl;
-    cout << "[2] Regiao" << endl;
+
+    Pokemon *pokemon;
+    pokemon = dynamic_cast<Pokemon*>(seresVivos[pos]);
+    Treinador *treinador;
+    treinador = dynamic_cast<Treinador*>(seresVivos[pos]);
+
+    std::cout << "[1] Nome" << std::endl;
+    std::cout << "[2] Regiao" << std::endl;
     switch(tipo)
     {
         case POKEMON:
@@ -269,9 +273,9 @@ bool Cadastro::atualiza(int id)
             std::cout << "[4] Idade" << std::endl;
         }
     }
-    cout << "[0] Fim" << endl;
-    cout << "> ";
-    cin >> opt;
+    std::cout << "[0] Fim" << std::endl;
+    std::cout << "> ";
+    std::cin >> opt;
     if (pos != -1) 
     {
         switch(opt)
@@ -299,14 +303,14 @@ bool Cadastro::atualiza(int id)
                     {
                         std::cout << "Vida: ";
                         std::cin >> vida;
-                        seresVivos[pos]->setVida(vida);
+                        pokemon->setVida(vida);
                         break;
                     }
                      case TREINADOR:
                     {
                         std::cout << "Genero: ";
                         std::cin >> genero;
-                        seresVivos[pos]->setGenero(genero);
+                        treinador->setGenero(genero);
                         break;
                     }
                 }
@@ -318,15 +322,15 @@ bool Cadastro::atualiza(int id)
                     case POKEMON:
                     {
                         std::cout << "Dano: ";
-                        std::cint >> dano;
-                        seresVivos[pos]->setDano(dano);
+                        std::cin >> dano;
+                        pokemon->setDano(dano);
                         break;
                     }
                     case TREINADOR:
                     {
                         std::cout << "Idade: ";
                         std::cin >> idade;
-                        seresVivos[pos]->setIdade(idade);
+                        treinador->setIdade(idade);
                         break;
                     }
                 }
@@ -335,14 +339,14 @@ bool Cadastro::atualiza(int id)
             {
                 std::cout << "Ataque Especial: ";
                 std::cin >> specialAtk;
-                seresVivos[pos]->setSpecialAtk(specialAtk);
+                pokemon->setSpecialAtk(specialAtk);
                 break;
             }
             case 6:
             { 
                 std::cout << "Elemento: ";
                 std::cin >> elemento;
-                seresVivos[pos]->setElemento(elemento);
+                pokemon->setElemento(elemento);
                 break;
             }
             
@@ -379,7 +383,7 @@ int Cadastro::indice(int id)
             return i;
         }
     }
-    return -1
+    return -1;
 }
 
 void Cadastro::imprime(int id) 
@@ -392,21 +396,36 @@ void Cadastro::imprime(int id)
     }
     else 
     {
-        cout << "Id não encontrado";
+        std::cout << "Id não encontrado";
+    }
+}
+
+void Cadastro::imprimeTime(int id)
+{
+    int pos = indice(id);
+    Treinador *treinador;
+    treinador = dynamic_cast<Treinador*>(seresVivos[pos]);
+    if(pos != -1)
+    {
+        treinador->imprimeSeuTime();
+    }
+    else
+    {
+        std::cout << "Id não encontrado";
     }
 }
 
 
 int Cadastro::opcao() {
     int opt;
-    cout << "[1] Imprime Ser Vivo" << endl;
-    cout << "[2] Imprime Time" << endl;
-    cout << "[3] Adiciona Teinador" << endl;
-    cout << "[4] Adiciona Pokemon" << endl;
-    cout << "[5] Atualiza Atributo" << endl;
-    cout << "[6] Remove Ser Vivo"<< endl;
-    cout << "[0] Fim" << endl;
-    cout << "> ";
-    cin >> opt;
+    std::cout << "[1] Imprime Ser Vivo" << std::endl;
+    std::cout << "[2] Imprime Time" << std::endl;
+    std::cout << "[3] Adiciona Teinador" << std::endl;
+    std::cout << "[4] Adiciona Pokemon" << std::endl;
+    std::cout << "[5] Atualiza Atributo" << std::endl;
+    std::cout << "[6] Remove Ser Vivo"<< std::endl;
+    std::cout << "[0] Fim" << std::endl;
+    std::cout << "> ";
+    std::cin >> opt;
     return opt;
 }
