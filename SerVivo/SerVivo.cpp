@@ -5,7 +5,14 @@ SerVivo::SerVivo(int& id, std::string& nome, std::string& regiao)
 
 void SerVivo::imprime() const
 {
-    std::cout << "-----------" << this->getTipo() << "-----------" << std::endl;
+    if(this->getTipo() == 0)
+    {
+        std::cout << "---------TREINADOR---------\n";
+    }
+    else
+    {
+        std::cout << "---------POKEMON---------\n";
+    }
     std::cout << "ID: " << this->id << std::endl;
     std::cout << "Nome: " << this->nome << std::endl;
     std::cout << "Regiao: " << this->regiao << std::endl;

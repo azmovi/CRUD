@@ -21,7 +21,6 @@ public:
     void imprimeSeuTime();
     bool removePokemon(std::string);
     bool adcionaPokemon(Pokemon*);
-    bool temPokemon();
 
     int getIdade() const;
     void setIdade(int);

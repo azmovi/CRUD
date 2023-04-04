@@ -15,9 +15,8 @@ void Treinador::imprime() const
 
 void Treinador::imprimeSeuTime()
 {
-    for(int i = 1; i < 4; ++i)
+    for(size_t i = 1; i < time.size(); ++i)
     {
-        std::cout << "------- POKEMON -> " << i << " -------" << std::endl;
         time[i-1]->imprime();
     }
     std::cout << "--------------------" << std::endl;

@@ -37,16 +37,31 @@ int main()
             }
             case 5:
             {
-                std::cout << "ID: ";
+                std::cout << "Id: ";
                 std::cin >> id; 
                 cadastro.atualiza(id);
                 break;
             }
             case 6:
             {
-                std::cout << "ID: ";
+                std::cout << "Id: ";
                 std::cin >> id;
                 cadastro.remove(id);
+                break;
+            }
+            case 7:
+            {
+                int id_treinador, id_pokemon;
+                std::cout << "ID do Treinador ";
+                std::cin >> id_treinador;
+                std::cout << "Id do Pokemon ";
+                std::cin >> id_pokemon;
+                cadastro.treinadorCaptura(id_treinador, id_pokemon);
+                break;
+            }
+            case 8:
+            {
+                cadastro.imprimeTodos();
                 break;
             }
         }

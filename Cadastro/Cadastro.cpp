@@ -413,6 +413,37 @@ void Cadastro::imprimeTime(int id)
     }
 }
 
+void  Cadastro::treinadorCaptura(int id_treinador, int id_pokemon)
+{
+    int pos_treinador = indice(id_treinador);
+    int pos_pokemon= indice(id_pokemon);
+
+    Treinador *treinador = dynamic_cast<Treinador*>(seresVivos[pos_treinador]);
+    Pokemon *pokemon = dynamic_cast<Pokemon*>(seresVivos[pos_pokemon]);
+
+    if((pos_pokemon != -1) & (pos_treinador != -1))
+    {
+        treinador->adcionaPokemon(pokemon);
+    }
+    else
+    {
+        std::cout << "Id não encontrado";
+    }
+}
+
+
+void Cadastro::imprimeTodos()
+{
+    if (seresVivos.empty()) {
+        std::cout << "Nenhum ser vivo cadastrado" << std::endl;
+        return;
+    }
+
+    for (size_t i = 0; i < seresVivos.size(); i++)
+    {
+        seresVivos[i]->imprime();
+    }
+}
 
 int Cadastro::opcao() {
     int opt;
@@ -422,6 +453,8 @@ int Cadastro::opcao() {
     std::cout << "[4] Adiciona Pokemon" << std::endl;
     std::cout << "[5] Atualiza Atributo" << std::endl;
     std::cout << "[6] Remove Ser Vivo"<< std::endl;
+    std::cout << "[7] Treinador Captura"<< std::endl;
+    std::cout << "[8] Imprime Todos os Seres Vivos"<< std::endl;
     std::cout << "[0] Fim" << std::endl;
     std::cout << "> ";
     std::cin >> opt;

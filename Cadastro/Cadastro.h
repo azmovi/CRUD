@@ -7,17 +7,19 @@
 
 class Cadastro {
 public:
-    Cadastro(std::string fileName);
-    bool adiciona(int tipo);
-    void imprime(int id);
-    void imprimeTime(int id);
-    bool remove(int id);
-    bool atualiza(int id);
+    Cadastro(std::string);
+    bool adiciona(int);
+    void imprime(int);
+    void imprimeTime(int);
+    bool remove(int);
+    bool atualiza(int);
+    void treinadorCaptura(int, int);
+    void imprimeTodos();
     static int opcao();
 private:
     void grava();
     void recupera();
-    int indice(int id);
+    int indice(int);
 
     std::string fileName;
     std::vector<SerVivo*> seresVivos;

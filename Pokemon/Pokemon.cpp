@@ -35,6 +35,7 @@ void Pokemon::imprime() const
     SerVivo::imprime();
     std::cout << "Vida-> " << this->vida << " Dano-> " << this->dano << std::endl;
     std::cout << "Elemento-> " << this->elemento << std::endl;
+    std::cout << "Ataque Especial-> " << this->specialAtk<< std::endl;
 }
 
 int Pokemon::getVida() const
